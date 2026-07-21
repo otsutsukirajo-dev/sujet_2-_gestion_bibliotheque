@@ -31,8 +31,11 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // Connexion automatique et redirection vers les livres (ou l'accueil)
-            return $security->login($user, 'form_login', 'main');
+            // Connexion automatique de l'utilisateur
+            $security->login($user, 'form_login', 'main');
+
+            // Redirection vers la liste des livres avec le bon nom de route
+            return $this->redirectToRoute('app_livre_index');
         }
 
         return $this->render('registration/register.html.twig', [
