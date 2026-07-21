@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -16,12 +15,10 @@ class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
     public function register(
-        Request $request, 
-        UserPasswordHasherInterface $userPasswordHasher, 
-        Security $security, 
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
         EntityManagerInterface $entityManager
-    ): Response
-    {
+    ): Response {
         // Si l'utilisateur est déjà connecté, on le redirige
         if ($this->getUser()) {
             return $this->redirectToRoute('app_livre_index');
@@ -35,23 +32,20 @@ class RegistrationController extends AbstractController
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
 
-            // 1. Attribution indispensable du rôle de base
+            // Attribution du rôle de base
             $user->setRoles(['ROLE_USER']);
-            $user->setIsVerified(true); // Ajuste selon ton besoin
+            $user->setIsVerified(true);
 
-            // 2. Hachage du mot de passe
+            // Hachage du mot de passe
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // 3. Connexion automatique sécurisée (retourne directement la Response de redirection)
-            // On utilise l'authenticator standard de formulaire
-            return $security->login(
-                $user,
-                'form_login',
-                'main'
-            ) ?? $this->redirectToRoute('app_livre_index');
+            // Message de succès et redirection vers la connexion
+            $this->addFlash('success', 'Votre compte a été créé avec succès ! Vous pouvez maintenant vous connecter.');
+
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('registration/register.html.twig', [
