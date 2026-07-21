@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail de l'emprunt{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-info text-white">
+                <h2 class="h5 mb-0">📋 Détail de l'emprunt #{{ emprunt.id }}</h2>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <td>{{ emprunt.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Livre</th>
+                            <td>{{ emprunt.livre ? emprunt.livre.titre : 'N/A' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Utilisateur</th>
+                            <td>{{ emprunt.user ? emprunt.user.email : 'N/A' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Date d'emprunt</th>
+                            <td>{{ emprunt.dateEmprunt ? emprunt.dateEmprunt|date('d/m/Y H:i') : 'Non renseignée' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Date de retour prévue</th>
+                            <td>{{ emprunt.dateRetourPrevue ? emprunt.dateRetourPrevue|date('d/m/Y') : 'Non renseignée' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Statut</th>
+                            <td>
+                                {% if emprunt.dateRetourEffective %}
+                                    <span class="badge bg-success">Rendu le {{ emprunt.dateRetourEffective|date('d/m/Y') }}</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">En cours</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer d-flex justify-content-between">
+                <a href="{{ path('app_emprunt_index') }}" class="btn btn-outline-secondary btn-sm">← Retour à la liste</a>
+                <a href="{{ path('app_emprunt_edit', {'id': emprunt.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
