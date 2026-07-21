@@ -47,6 +47,7 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'csrf_protection' => false, // Désactivé car le CSRF stateless cause des 500 en prod
         ]);
     }
 }
