@@ -1,11 +1,8 @@
-# Enable stateless CSRF protection for forms and logins/logouts
+# CSRF protection configuration
+# The form component uses session-based CSRF (generated server-side in HTML).
+# Only login/logout use stateless CSRF (cookie-based) as required by Symfony security.
 framework:
-    form:
-        csrf_protection:
-            token_id: submit
-
     csrf_protection:
         stateless_token_ids:
-            - submit
             - authenticate
             - logout
