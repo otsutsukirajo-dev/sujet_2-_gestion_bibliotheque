@@ -1,8 +1,8 @@
 FROM php:8.2-apache
 
-# Installation des dépendances et extensions PHP
+# Installation des dépendances et de dos2unix pour corriger les retours à la ligne Windows
 RUN apt-get update && apt-get install -y \
-    git zip unzip libpng-dev libicu-dev libpq-dev libzip-dev \
+    git zip unzip libpng-dev libicu-dev libpq-dev libzip-dev dos2unix \
     && docker-php-ext-install pdo pdo_mysql pdo_pgsql intl opcache zip
 
 # Activation de la réécriture d'URL Apache
@@ -28,12 +28,12 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 # Installation sans exécuter les scripts Symfony au build
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
-# Permissions
+# Permissions sur var
 RUN chown -R www-data:www-data var/
 
-# Script de démarrage
+# Script de démarrage + nettoyage du format Windows (dos2unix)
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+RUN dos2unix /usr/local/bin/entrypoint.sh && chmod +x /usr/local/bin/entrypoint.sh
 
 EXPOSE 80
 
