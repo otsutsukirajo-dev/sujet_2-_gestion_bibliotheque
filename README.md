@@ -5,9 +5,7 @@ Projet réalisé dans le cadre du module de développement web.
 ---
 
 ## 👤 À propos de l'auteur
-* **Étudiant** : RAKOTNI
-* **Établissement** : INSI
-* **Niveau** : Licence 1 (L1) - Computer Science
+* **Étudiant** : RAKOTONIRINA Rajoniaina Safidy n° 301/L1A/25-26
 * **Projet choisi** : Sujet 2 — Gestion de Bibliothèque
 
 ---
