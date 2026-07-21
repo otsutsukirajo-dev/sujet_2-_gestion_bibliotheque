@@ -11,7 +11,7 @@ security:
                 default_target_path: app_livre_index # Route de redirection après une connexion réussie
             logout:
                 path: app_logout
-                target_path: app_login # Redirection après la déconnexion
+                target: app_login # Redirection après la déconnexion
 
     access_control:
         # Définis ici tes règles de restriction d'accès si nécessaire
