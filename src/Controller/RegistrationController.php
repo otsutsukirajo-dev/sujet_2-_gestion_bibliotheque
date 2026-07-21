@@ -48,8 +48,8 @@ class RegistrationController extends AbstractController
             // 3. Connexion automatique sécurisée (retourne directement la Response de redirection)
             // On utilise l'authenticator standard de formulaire
             return $security->login(
-                $user, 
-                'App\Security\LoginFormAuthenticator', 
+                $user,
+                'form_login',
                 'main'
             ) ?? $this->redirectToRoute('app_livre_index');
         }
