@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail du livre{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-info text-white">
+                <h2 class="h5 mb-0">📚 {{ livre.titre }}</h2>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <td>{{ livre.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Titre</th>
+                            <td>{{ livre.titre }}</td>
+                        </tr>
+                        <tr>
+                            <th>Auteur</th>
+                            <td>{{ livre.auteur ? livre.auteur.nom : 'Non renseigné' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Catégorie</th>
+                            <td>{{ livre.categorie ? livre.categorie.libelle : 'Non renseignée' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Disponibilité</th>
+                            <td>
+                                {% if livre.estDisponible %}
+                                    <span class="badge bg-success">Disponible</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Emprunté</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer d-flex justify-content-between">
+                <a href="{{ path('app_livre_index') }}" class="btn btn-outline-secondary btn-sm">← Retour au catalogue</a>
+                <a href="{{ path('app_livre_edit', {'id': livre.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

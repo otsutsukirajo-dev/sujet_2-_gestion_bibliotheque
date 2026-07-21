@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catalogue des livres{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h2 text-dark fw-bold mb-1">📚 Livres en rayon</h1>
+        <p class="text-muted mb-0">Consultez et gérez le catalogue de la bibliothèque.</p>
+    </div>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('app_livre_new') }}" class="btn btn-primary shadow-sm">
+            ➕ Ajouter un livre
+        </a>
+    {% endif %}
+</div>
+
+<form method="get" class="d-flex mb-3 gap-2">
+    <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Rechercher par titre, auteur, catégorie...">
+    <button type="submit" class="btn btn-primary">Rechercher</button>
+    {% if q %}
+        <a href="{{ path('app_livre_index') }}" class="btn btn-outline-secondary">Réinitialiser</a>
+    {% endif %}
+</form>
+
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Titre</th>
+                    <th>Auteur</th>
+                    <th>Catégorie</th>
+                    <th>Disponibilité</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for livre in livres %}
+                <tr>
+                    <td>{{ livre.id }}</td>
+                    <td class="fw-bold">{{ livre.titre }}</td>
+                    <td>{{ livre.auteur }}</td>
+                    <td><span class="badge bg-secondary">{{ livre.categorie }}</span></td>
+                    <td>
+                        {% if livre.estDisponible %}
+                            <span class="badge bg-success">Disponible</span>
+                        {% else %}
+                            <span class="badge bg-danger">Emprunté</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end">
+                        <a href="{{ path('app_livre_show', {'id': livre.id}) }}" class="btn btn-sm btn-outline-info">Voir</a>
+                        <a href="{{ path('app_livre_edit', {'id': livre.id}) }}" class="btn btn-sm btn-outline-warning">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6" class="text-center py-4 text-muted">Aucun livre enregistré pour le moment.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

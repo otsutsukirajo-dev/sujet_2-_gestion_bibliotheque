@@ -1,0 +1,15 @@
+{{ form_start(form) }}
+    <div class="mb-3">
+        {{ form_row(form.titre, {'attr': {'class': 'form-control', 'placeholder': 'Titre du livre'}}) }}
+    </div>
+    <div class="mb-3">
+        {{ form_row(form.auteur, {'attr': {'class': 'form-select'}}) }}
+    </div>
+    <div class="mb-3">
+        {{ form_row(form.categorie, {'attr': {'class': 'form-select'}}) }}
+    </div>
+    <div class="mb-3">
+        {{ form_row(form.estDisponible, {'attr': {'class': 'form-check-input'}}) }}
+    </div>
+    <button class="btn btn-success fw-bold">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}

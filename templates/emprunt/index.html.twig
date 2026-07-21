@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Emprunts{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h2 text-dark fw-bold mb-1">📋 Liste des Emprunts</h1>
+        <p class="text-muted mb-0">Suivez et gérez les emprunts en cours et passés.</p>
+    </div>
+    <a href="{{ path('app_emprunt_new') }}" class="btn btn-primary shadow-sm">
+        ➕ Enregistrer un emprunt
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Livre</th>
+                    <th>Utilisateur</th>
+                    <th>Date d'emprunt</th>
+                    <th>Retour prévu</th>
+                    <th>Statut / Retour effectif</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for emprunt in emprunts %}
+                <tr>
+                    <td>{{ emprunt.id }}</td>
+                    <td class="fw-bold">{{ emprunt.livre ? emprunt.livre.titre : 'N/A' }}</td>
+                    <td>{{ emprunt.user ? emprunt.user.email : 'N/A' }}</td>
+                    <td>{{ emprunt.dateEmprunt ? emprunt.dateEmprunt|date('d/m/Y H:i') : '' }}</td>
+                    <td>{{ emprunt.dateRetourPrevue ? emprunt.dateRetourPrevue|date('d/m/Y') : '' }}</td>
+                    <td>
+                        {% if emprunt.dateRetourEffective %}
+                            <span class="badge bg-success">Rendu le {{ emprunt.dateRetourEffective|date('d/m/Y') }}</span>
+                        {% else %}
+                            <span class="badge bg-warning text-dark">En cours</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end">
+                        <a href="{{ path('app_emprunt_show', {'id': emprunt.id}) }}" class="btn btn-sm btn-outline-info">Voir</a>
+                        <a href="{{ path('app_emprunt_edit', {'id': emprunt.id}) }}" class="btn btn-sm btn-outline-warning">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7" class="text-center py-4 text-muted">Aucun emprunt enregistré pour le moment.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
